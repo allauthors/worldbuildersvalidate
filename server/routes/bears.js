@@ -5,6 +5,15 @@ const router = express.Router();
 
 var Bear = require('../models/bear');
 router.route('/')
+.all((req,res,next)=>{
+    if(!req.isAuthenticated()){
+        res.status(401).json({"message":"not authenticated"});
+    }
+    else
+    {
+        next();
+    }
+})
 .get((req,res)=>{
     Bear.find(function(err,bears) {
         if (err)
